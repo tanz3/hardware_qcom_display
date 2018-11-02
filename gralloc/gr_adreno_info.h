@@ -202,6 +202,12 @@ class AdrenoMemInfo {
   */
   bool AdrenoSizeAPIAvaliable();
 
+   /*
+   * Function to query whether GPU supports secureContext
+   * @return > 1 : supported
+   *           0 : not supported
+   */
+  bool isSecureContextSupportedByGpu();
 
   static AdrenoMemInfo *GetInstance();
 
@@ -230,6 +236,7 @@ class AdrenoMemInfo {
       int *aligned_w, int *aligned_h, int *bpp) = NULL;
   int (*LINK_adreno_isUBWCSupportedByGpu)(ADRENOPIXELFORMAT format) = NULL;
   unsigned int (*LINK_adreno_get_gpu_pixel_alignment)(void) = NULL;
+  int (*LINK_adreno_isSecureContextSupportedByGpu) (void) = NULL;
 
   uint32_t (*LINK_adreno_get_metadata_blob_size)(void) = NULL;
   int (*LINK_adreno_init_memory_layout)(void* metadata_blob, int width, int height, int depth,

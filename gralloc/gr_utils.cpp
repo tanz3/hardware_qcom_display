@@ -1989,4 +1989,18 @@ bool CanAllocateZSLForSecureCamera() {
 
   return can_allocate;
 }
+bool IsGPUSupportedHwBuffer(uint64_t usage) {
+  if ((usage & BufferUsage::PROTECTED) &&
+       ((usage & BufferUsage::GPU_MIPMAP_COMPLETE) ||
+        (usage & BufferUsage::GPU_DATA_BUFFER) ||
+        (usage & BufferUsage::GPU_RENDER_TARGET) ||
+        (usage & BufferUsage::GPU_TEXTURE) ||
+        (usage & BufferUsage::GPU_CUBE_MAP))) {
+    if (!AdrenoMemInfo::GetInstance()->isSecureContextSupportedByGpu()) {
+      return false;
+    }
+  }
+  return true;
+}
+
 }  // namespace gralloc
