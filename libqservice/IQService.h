@@ -81,6 +81,7 @@ public:
         GET_DSI_CLK = 39, // Get DSI Clk.
         GET_SUPPORTED_DSI_CLK = 40, // Get supported DSI Clk.
         SET_STAND_BY_MODE = 41, //Set stand by mode for MDP hardware.
+        GET_PANEL_RESOLUTION = 42, // Get Panel Resolution
         COMMAND_LIST_END = 400,
     };
 
