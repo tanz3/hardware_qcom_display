@@ -47,6 +47,7 @@ LOCAL_SRC_FILES               := hwc_session.cpp \
                                  display_null.cpp \
                                  hwc_socket_handler.cpp \
                                  hwc_buffer_allocator.cpp
+LOCAL_VINTF_FRAGMENTS         := android.hardware.graphics.composer-qti-display.xml
 
 ifeq ($(TARGET_HAS_WIDE_COLOR_DISPLAY), true)
     LOCAL_CFLAGS += -DFEATURE_WIDE_COLOR
