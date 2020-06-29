@@ -83,16 +83,17 @@ AdrenoMemInfo::AdrenoMemInfo() {
       !(strncmp(property, "true", PROPERTY_VALUE_MAX))) {
      gfx_ubwc_disable_ = true;
   }
+  property_get(DISABLE_AHARDWAREBUFFER_PROP, property, "0");
+  if (!(strncmp(property, "1", PROPERTY_VALUE_MAX)) ||
+      !(strncmp(property, "true", PROPERTY_VALUE_MAX))) {
+     gfx_ahardware_buffer_disable_ = true;
+  }
 }
 
 AdrenoMemInfo::~AdrenoMemInfo() {
   if (libadreno_utils_) {
     ::dlclose(libadreno_utils_);
   }
-}
-
-void AdrenoMemInfo::AdrenoSetProperties(gralloc::GrallocProperties props) {
-  gfx_ahardware_buffer_disable_ = props.ahardware_buffer_disable;
 }
 
 void AdrenoMemInfo::AlignUnCompressedRGB(int width, int height, int format, int tile_enabled,
