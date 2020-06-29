@@ -202,7 +202,6 @@ class AdrenoMemInfo {
   */
   bool AdrenoSizeAPIAvaliable();
 
-  void AdrenoSetProperties(gralloc::GrallocProperties props);
 
   static AdrenoMemInfo *GetInstance();
 
