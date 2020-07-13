@@ -1008,6 +1008,9 @@ void GetAlignedWidthAndHeight(const BufferInfo &info, unsigned int *alignedw,
   // Below should be only YUV family
   switch (format) {
     case HAL_PIXEL_FORMAT_YCrCb_420_SP:
+#ifdef USE_ALIGNED_YCRCB_HEIGHT
+      aligned_h = ALIGN(height, 32);
+#endif
 #ifdef USE_UNALIGNED_YCRCB
       break;
 #endif
@@ -1016,6 +1019,9 @@ void GetAlignedWidthAndHeight(const BufferInfo &info, unsigned int *alignedw,
         return;
       }
       alignment = AdrenoMemInfo::GetInstance()->GetGpuPixelAlignment();
+#ifdef USE_ALIGNED_YCBCR_HEIGHT
+      aligned_h = ALIGN(height, 32);
+#endif
       aligned_w = ALIGN(width, alignment);
       break;
     case HAL_PIXEL_FORMAT_YCrCb_420_SP_ADRENO:
