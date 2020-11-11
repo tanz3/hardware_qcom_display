@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011-2019, The Linux Foundation. All rights reserved.
+ * Copyright (c) 2011-2017,2020-2021, The Linux Foundation. All rights reserved.
 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
@@ -31,6 +31,8 @@
 #define __GR_ADRENO_INFO_H__
 
 #include <media/msm_media_info.h>
+
+#include "gr_utils.h"
 
 namespace gralloc {
 
@@ -67,6 +69,34 @@ typedef enum {
   ADRENO_PIXELFORMAT_D24_UNORM = 549,
   ADRENO_PIXELFORMAT_D32_FLOAT_X24S8_UINT = 551,
   ADRENO_PIXELFORMAT_S8_UINT = 552,
+  ADRENO_PIXELFORMAT_ASTC_4X4 = 568,  // ASTC Compressed
+  ADRENO_PIXELFORMAT_ASTC_5X4 = 569,  // ASTC Compressed
+  ADRENO_PIXELFORMAT_ASTC_5X5 = 570,  // ASTC Compressed
+  ADRENO_PIXELFORMAT_ASTC_6X5 = 571,  // ASTC Compressed
+  ADRENO_PIXELFORMAT_ASTC_6X6 = 572,  // ASTC Compressed
+  ADRENO_PIXELFORMAT_ASTC_8X5 = 573,  // ASTC Compressed
+  ADRENO_PIXELFORMAT_ASTC_8X6 = 574,  // ASTC Compressed
+  ADRENO_PIXELFORMAT_ASTC_8X8 = 575,  // ASTC Compressed
+  ADRENO_PIXELFORMAT_ASTC_10X5 = 576,  // ASTC Compressed
+  ADRENO_PIXELFORMAT_ASTC_10X6 = 577,  // ASTC Compressed
+  ADRENO_PIXELFORMAT_ASTC_10X8 = 578,  // ASTC Compressed
+  ADRENO_PIXELFORMAT_ASTC_10X10 = 579,  // ASTC Compressed
+  ADRENO_PIXELFORMAT_ASTC_12X10 = 580,  // ASTC Compressed
+  ADRENO_PIXELFORMAT_ASTC_12X12 = 581,  // ASTC Compressed
+  ADRENO_PIXELFORMAT_ASTC_4X4_SRGB = 582,  // ASTC Compressed
+  ADRENO_PIXELFORMAT_ASTC_5X4_SRGB = 583,  // ASTC Compressed
+  ADRENO_PIXELFORMAT_ASTC_5X5_SRGB = 584,  // ASTC Compressed
+  ADRENO_PIXELFORMAT_ASTC_6X5_SRGB = 585,  // ASTC Compressed
+  ADRENO_PIXELFORMAT_ASTC_6X6_SRGB = 586,  // ASTC Compressed
+  ADRENO_PIXELFORMAT_ASTC_8X5_SRGB = 587,  // ASTC Compressed
+  ADRENO_PIXELFORMAT_ASTC_8X6_SRGB = 588,  // ASTC Compressed
+  ADRENO_PIXELFORMAT_ASTC_8X8_SRGB = 589,  // ASTC Compressed
+  ADRENO_PIXELFORMAT_ASTC_10X5_SRGB = 590,  // ASTC Compressed
+  ADRENO_PIXELFORMAT_ASTC_10X6_SRGB = 591,  // ASTC Compressed
+  ADRENO_PIXELFORMAT_ASTC_10X8_SRGB = 592,  // ASTC Compressed
+  ADRENO_PIXELFORMAT_ASTC_10X10_SRGB = 593,  // ASTC Compressed
+  ADRENO_PIXELFORMAT_ASTC_12X10_SRGB = 594,  // ASTC Compressed
+  ADRENO_PIXELFORMAT_ASTC_12X12_SRGB = 595,  // ASTC Compressed
   // Vertex, Normalized GL_UNSIGNED_INT_10_10_10_2_OES
   ADRENO_PIXELFORMAT_R5G6B5 = 610,    //  RGBA version of B5G6R5
   ADRENO_PIXELFORMAT_R5G5B5A1 = 611,  //  RGBA version of B5G5R5A1
@@ -128,6 +158,10 @@ class AdrenoMemInfo {
   bool IsUBWCSupportedByGPU(int format);
 
   /*
+  * Function to check if GPU supports PI or not
+  */
+  bool IsPISupportedByGPU(int format, uint64_t usage);
+  /*
    * Function to get the corresponding Adreno format for given HAL format
    */
   ADRENOPIXELFORMAT GetGpuPixelFormat(int hal_format);
@@ -158,6 +192,8 @@ class AdrenoMemInfo {
   */
   bool AdrenoSizeAPIAvaliable();
 
+  void AdrenoSetProperties(gralloc::GrallocProperties props);
+
   static AdrenoMemInfo *GetInstance();
 
  private:
@@ -186,6 +222,7 @@ class AdrenoMemInfo {
        ADRENOPIXELFORMAT format, int num_samples, surface_tile_mode_t tile_mode,
        uint64_t usage, uint32_t num_planes) = NULL;
   uint32_t (*LINK_adreno_get_aligned_gpu_buffer_size)(void* metadata_blob) = NULL;
+  int (*LINK_adreno_isPISupportedByGpu)(int format, uint64_t usage) = NULL;
 
   bool gfx_ubwc_disable_ = false;
   bool gfx_ahardware_buffer_disable_ = false;

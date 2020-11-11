@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011-2019, The Linux Foundation. All rights reserved.
+ * Copyright (c) 2011-2021, The Linux Foundation. All rights reserved.
 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
@@ -77,27 +77,17 @@ AdrenoMemInfo::AdrenoMemInfo() {
   } else {
     ALOGE(" Failed to load libadreno_utils.so");
   }
-
-  // Check if the overriding property debug.gralloc.gfx_ubwc_disable
-  // that disables UBWC allocations for the graphics stack is set
-  char property[PROPERTY_VALUE_MAX];
-  property_get(DISABLE_UBWC_PROP, property, "0");
-  if (!(strncmp(property, "1", PROPERTY_VALUE_MAX)) ||
-      !(strncmp(property, "true", PROPERTY_VALUE_MAX))) {
-    gfx_ubwc_disable_ = true;
-  }
-
-  property_get(DISABLE_AHARDWAREBUFFER_PROP, property, "0");
-  if (!(strncmp(property, "1", PROPERTY_VALUE_MAX)) ||
-      !(strncmp(property, "true", PROPERTY_VALUE_MAX))) {
-    gfx_ahardware_buffer_disable_ = true;
-  }
 }
 
 AdrenoMemInfo::~AdrenoMemInfo() {
   if (libadreno_utils_) {
     ::dlclose(libadreno_utils_);
   }
+}
+
+void AdrenoMemInfo::AdrenoSetProperties(gralloc::GrallocProperties props) {
+  gfx_ubwc_disable_ = props.ubwc_disable;
+  gfx_ahardware_buffer_disable_ = props.ahardware_buffer_disable;
 }
 
 void AdrenoMemInfo::AlignUnCompressedRGB(int width, int height, int format, int tile_enabled,
@@ -214,6 +204,8 @@ ADRENOPIXELFORMAT AdrenoMemInfo::GetGpuPixelFormat(int hal_format) {
        return ADRENO_PIXELFORMAT_R16G16B16A16_FLOAT;
     case HAL_PIXEL_FORMAT_NV12_ENCODEABLE:
       return ADRENO_PIXELFORMAT_NV12;
+    case HAL_PIXEL_FORMAT_NV21_ENCODEABLE:
+      return ADRENO_PIXELFORMAT_NV21;
     case HAL_PIXEL_FORMAT_YCbCr_420_SP_VENUS:
     case HAL_PIXEL_FORMAT_YCbCr_420_SP_VENUS_UBWC:
       return ADRENO_PIXELFORMAT_NV12_EXT;
@@ -231,8 +223,6 @@ ADRENOPIXELFORMAT AdrenoMemInfo::GetGpuPixelFormat(int hal_format) {
       return ADRENO_PIXELFORMAT_D24_UNORM_S8_UINT;
     case HAL_PIXEL_FORMAT_DEPTH_32F:
       return ADRENO_PIXELFORMAT_D32_FLOAT;
-    case HAL_PIXEL_FORMAT_STENCIL_8:
-      return ADRENO_PIXELFORMAT_S8_UINT;
     default:
       ALOGE("%s: No map for format: 0x%x", __FUNCTION__, hal_format);
       break;
@@ -273,6 +263,13 @@ bool AdrenoMemInfo::AdrenoSizeAPIAvaliable() {
 
   return (LINK_adreno_get_metadata_blob_size && LINK_adreno_init_memory_layout &&
           LINK_adreno_get_aligned_gpu_buffer_size);
+}
+
+bool AdrenoMemInfo::IsPISupportedByGPU(int format, uint64_t usage) {
+  if (LINK_adreno_isPISupportedByGpu) {
+    return LINK_adreno_isPISupportedByGpu(format, usage);
+  }
+  return false;
 }
 
 }  // namespace gralloc
