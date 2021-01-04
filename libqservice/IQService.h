@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2010 The Android Open Source Project
- * Copyright (C) 2012-2014, 2016-2018 The Linux Foundation. All rights reserved.
+ * Copyright (C) 2012-2014, 2016-2018, 2021, The Linux Foundation. All rights reserved.
  *
  * Not a Contribution, Apache license notifications and license are
  * retained for attribution purposes only.
@@ -80,6 +80,7 @@ public:
         SET_DSI_CLK = 38, // Set DSI Clk.
         GET_DSI_CLK = 39, // Get DSI Clk.
         GET_SUPPORTED_DSI_CLK = 40, // Get supported DSI Clk.
+        SET_STAND_BY_MODE = 41, //Set stand by mode for MDP hardware.
         COMMAND_LIST_END = 400,
     };
 

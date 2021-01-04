@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2018, 2020, The Linux Foundation. All rights reserved.
+ * Copyright (c) 2014-2018, 2020-2021, The Linux Foundation. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
@@ -34,6 +34,7 @@
 
 #include "cpuhint.h"
 #include "hwc_display.h"
+#include "display_null.h"
 
 namespace sdm {
 
@@ -72,6 +73,7 @@ class HWCDisplayBuiltIn : public HWCDisplay {
   virtual DisplayError ControlPartialUpdate(bool enable, uint32_t *pending);
   virtual DisplayError SetDynamicDSIClock(uint64_t bitclk);
   virtual DisplayError GetDynamicDSIClock(uint64_t *bitclk);
+  virtual DisplayError SetStandByMode(bool enable);
   virtual DisplayError GetSupportedDSIClock(std::vector<uint64_t> *bitclk_rates);
   virtual HWC2::Error UpdateDisplayId(hwc2_display_t id);
   virtual HWC2::Error SetPendingRefresh();
@@ -116,6 +118,10 @@ class HWCDisplayBuiltIn : public HWCDisplay {
   bool is_primary_ = false;
   bool pending_refresh_ = true;
   bool enable_drop_refresh_ = false;
+
+  //Null display
+  DisplayNull display_null_;
+  DisplayInterface *stored_display_intf_ = NULL;
 };
 
 }  // namespace sdm
