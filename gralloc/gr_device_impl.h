@@ -118,6 +118,17 @@ class GrallocImpl : public gralloc1_device_t {
   static int32_t UnlockBuffer(gralloc1_device_t *device, buffer_handle_t buffer,
                               int32_t *release_fence);
   static int32_t Gralloc1Perform(gralloc1_device_t *device, int operation, ...);
+  static int32_t ValidateBufferSize(gralloc1_device_t *device,
+                                             buffer_handle_t buffer,
+                                             gralloc1_buffer_descriptor_info_t &descriptor_info,
+                                             int32_t stride);
+  static int32_t GetTransportSize(gralloc1_device_t *device,
+                                           buffer_handle_t buffer,
+                                           uint32_t *outNumFds,
+                                           uint32_t *outNumInts);
+  static int32_t ImportBuffer(gralloc1_device_t *device __unused,
+                                       const native_handle_t* rawHandle,
+                                       const native_handle_t** outBufferHandle);
 
   gralloc1_error_t CreateBufferDescriptorLocked(gralloc1_buffer_descriptor_t *descriptor_id);
   gralloc1_error_t DestroyBufferDescriptorLocked(gralloc1_buffer_descriptor_t descriptor_id);
