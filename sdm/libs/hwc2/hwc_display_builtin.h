@@ -73,7 +73,7 @@ class HWCDisplayBuiltIn : public HWCDisplay {
   virtual DisplayError ControlPartialUpdate(bool enable, uint32_t *pending);
   virtual DisplayError SetDynamicDSIClock(uint64_t bitclk);
   virtual DisplayError GetDynamicDSIClock(uint64_t *bitclk);
-  virtual DisplayError SetStandByMode(bool enable);
+  virtual DisplayError SetStandByMode(bool enable, bool is_twm);
   virtual DisplayError GetSupportedDSIClock(std::vector<uint64_t> *bitclk_rates);
   virtual HWC2::Error UpdateDisplayId(hwc2_display_t id);
   virtual HWC2::Error SetPendingRefresh();
