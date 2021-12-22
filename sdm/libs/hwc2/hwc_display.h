@@ -176,6 +176,7 @@ class HWCDisplay : public DisplayEventHandler {
   int GetVisibleDisplayRect(hwc_rect_t *rect);
   void BuildLayerStack(void);
   void BuildSolidFillStack(void);
+  void SetResetPanel(bool reset);
   HWCLayer *GetHWCLayer(hwc2_layer_t layer_id);
   void ResetValidation() { validated_ = false; }
   uint32_t GetGeometryChanges() { return geometry_changes_; }
@@ -374,6 +375,7 @@ class HWCDisplay : public DisplayEventHandler {
   bool layers_bypassed_ = false;
   int fbt_release_fence_ = -1;
   bool has_client_composition_ = false;
+  bool reset_panel_ = false;
   DisplayValidateState validate_state_ = kNormalValidate;
 };
 

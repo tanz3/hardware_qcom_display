@@ -2107,7 +2107,7 @@ void HWCSession::UEventHandler(const char *uevent_data, int length) {
 
 void HWCSession::ResetPanel() {
   HWC2::Error status;
-
+  hwc_display_[HWC_DISPLAY_PRIMARY]->SetResetPanel(true);
   DLOGI("Powering off primary");
   status = hwc_display_[HWC_DISPLAY_PRIMARY]->SetPowerMode(HWC2::PowerMode::Off);
   if (status != HWC2::Error::None) {
@@ -2127,6 +2127,7 @@ void HWCSession::ResetPanel() {
   }
 
   reset_panel_ = false;
+  hwc_display_[HWC_DISPLAY_PRIMARY]->SetResetPanel(false);
 }
 
 int HWCSession::GetVsyncPeriod(int disp) {
